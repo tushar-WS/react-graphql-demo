@@ -9,19 +9,18 @@ import { SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { injectSaga } from 'redux-injectors';
 import { Button, Input, Select } from 'antd';
-//import { selectLaunchData, selectLaunchListError, selectLoading } from './selectors';
+// import { selectLaunchData, selectLaunchListError, selectLoading } from './selectors';
 import arrowUp from '@images/ArrowUp.svg';
 import arrowDown from '@images/ArrowDown.svg';
 import arrowUpDown from '@images/ArrowUpDown.svg';
-//import homeContainerSaga from './saga';
-//import { requestGetLaunchList } from './reducer';
+// import homeContainerSaga from './saga';
+// import { requestGetLaunchList } from './reducer';
 import { LaunchList, ErrorHandler } from '@components';
 import { colors, media } from '@app/themes';
 import { injectIntl } from 'react-intl';
 import { setQueryParam } from '@app/utils';
 import history from '@app/utils/history';
-//import { RequestLaunchesActionPayload, HomeContainerProps } from './types';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+// import { RequestLaunchesActionPayload, HomeContainerProps } from './types';
 
 export function LoginContainer() {
   return (

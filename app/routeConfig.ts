@@ -12,7 +12,7 @@ export const routeConfig: RouteConfig = {
     component: HomeContainer,
     ...routeConstants.home
   },
- login: {
+  login: {
     component: LoginContainer,
     ...routeConstants.login
   },
