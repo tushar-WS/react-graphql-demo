@@ -1,4 +1,4 @@
-import React, { useEffect, memo, ChangeEvent } from 'react';
+import React, { useEffect, memo, ChangeEvent, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -21,26 +21,69 @@ import { injectIntl } from 'react-intl';
 import { setQueryParam } from '@app/utils';
 import history from '@app/utils/history';
 // import { RequestLaunchesActionPayload, HomeContainerProps } from './types';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from './firebase-config';
 
 export function LoginContainer() {
+  const [registerEmail, setRegisterEmail] = useState('');
+  const [registerPassword, setRegisterPassword] = useState('');
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [user, setUser] = useState({});
+
+  console.log({
+    registerEmail
+  });
+  interface User {
+    email: string;
+  }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) setUser(currentUser);
+    });
+    return unsubscribe();
+  }, []);
+
+  const register = async () => {
+    try {
+      const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+      console.log(user);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      console.log(user);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
+  const logout = async () => {
+    await signOut(auth);
+  };
   return (
     <div className="App">
       <div>
         <h3> Register User </h3>
         <input
           placeholder="Email..."
-          // onChange={(event) => {
-          //   setRegisterEmail(event.target.value);
-          // }}
+          onChange={(event) => {
+            setRegisterEmail(event.target.value);
+          }}
         />
         <input
           placeholder="Password..."
-          // onChange={(event) => {
-          //   setRegisterPassword(event.target.value);
-          // }}
+          onChange={(event) => {
+            setRegisterPassword(event.target.value);
+          }}
         />
 
-        <button> Create User</button>
+        <button onClick={() => register()}> Create User</button>
       </div>
 
       <div>
@@ -58,13 +101,13 @@ export function LoginContainer() {
           // }}
         />
 
-        <button> Login</button>
+        <button onClick={login}> Login</button>
       </div>
 
       <h4> User Logged In: </h4>
-      {/* {user?.email} */}
+      {/* { {user?.email}} */}
 
-      <button> Sign Out </button>
+      <button onClick={logout}> Sign Out </button>
     </div>
   );
 }
