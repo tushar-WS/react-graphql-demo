@@ -5,7 +5,7 @@ import { prepare } from '@app/utils';
 export const initialState = {
   loading: false,
   launchData: {},
-  launchListError: null
+  launchListError: null,
 };
 
 const homeSlice = createSlice({
