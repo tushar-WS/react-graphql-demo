@@ -1,3 +1,4 @@
+import { prepare } from '@app/utils';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Draft } from 'immer';
 
@@ -12,16 +13,15 @@ const songContainerSlice = createSlice({
   name: 'songContainer',
   initialState,
   reducers: {
-    requestGetItuneSongs: (state: any, action: any) => {
-      state.loading = true;
-      state.artistName = action.payload;
-
-      (artistName: string) => ({ payload: artistName });
+    requestGetItuneSongs: {
+      reducer: (state) => {
+        state.loading = true;
+      },
+      prepare
     },
     successGetItuneSongs: (state: Draft<typeof initialState>, action: PayloadAction<any>) => {
       state.loading = false;
       state.ituneData = action.payload;
-      console.log(action);
     },
     clearItuneSongs: (state: Draft<typeof initialState>) => {
       state.loading = false;

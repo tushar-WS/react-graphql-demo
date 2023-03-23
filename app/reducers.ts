@@ -7,8 +7,8 @@ import { combineReducers } from 'redux';
 import languageProvider from '@containers/LanguageProvider/reducer';
 import home from '@containers/HomeContainer/reducer';
 import launchDetails from '@containers/LaunchDetails/reducer';
-import SongContainer from '@containers/SongContainer/reducer';
-import SongDetailContainer from '@containers/SongDetailContainer/reducer';
+import songContainer from '@containers/SongContainer/reducer';
+import songDetailContainer from '@containers/SongDetailContainer/reducer';
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
  */
@@ -18,8 +18,8 @@ export default function createReducer(injectedReducer = {}) {
     languageProvider,
     home,
     launchDetails,
-    SongContainer,
-    SongDetailContainer
+    songContainer,
+    songDetailContainer
   });
 
   return rootReducer;

@@ -6,7 +6,6 @@ export const selectSongContainerDomain = (state: any) => state.songContainer || 
 
 export const selectItuneData = () =>
   createSelector(selectSongContainerDomain, (substate) => {
-    console.log({ substate });
     return get(substate, 'ituneData');
   });
 

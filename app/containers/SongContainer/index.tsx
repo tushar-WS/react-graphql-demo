@@ -13,6 +13,7 @@ import saga from './saga';
 import get from 'lodash/get';
 import styled from 'styled-components';
 import { AnyAction } from '@reduxjs/toolkit';
+import { Link } from 'react-router-dom';
 
 const CardWrapper = styled.div`
   display: flex;
@@ -44,10 +45,6 @@ type SongContainerType = {
   dispatchClearSongs: () => AnyAction;
 };
 export function SongContainer({ ituneData, dispatchItuneSongs, dispatchClearSongs, artistName }: SongContainerType) {
-  console.log({ ituneData });
-  console.log('in song');
-  console.log(artistName);
-
   const changeHandler = (evt: { target: { value: any } }) => {
     const searchTerm = evt.target.value;
 
@@ -60,18 +57,17 @@ export function SongContainer({ ituneData, dispatchItuneSongs, dispatchClearSong
 
   const renderSongList = () => {
     const songs = get(ituneData, 'results', null);
-    console.log('in render song');
-
-    console.log(ituneData);
-
-    console.log({ songs });
 
     return (
       <>
         <For
           of={songs}
           ParentComponent={CardWrapper}
-          renderItem={(item: any, index) => <ItuneCard key={index} {...item} />}
+          renderItem={(item: any) => (
+            <Link key={item.trackId} to={`track/${item.trackId}`}>
+              <ItuneCard {...item} />
+            </Link>
+          )}
         />
       </>
     );
