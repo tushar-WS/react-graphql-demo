@@ -10,8 +10,8 @@ import { get, isEmpty } from 'lodash';
 import styled from 'styled-components';
 import T from '@components/T';
 import saga from './saga';
-import { selectItuneData } from '../SongContainer/selectors.js';
-import { selectTrackId, selectSingleItune } from './selectors.js';
+import { selectItuneData } from '../SongContainer/selectors';
+import { selectTrackId, selectSingleItune } from './selectors';
 import { requestGetSingleItune } from './reducer';
 import { AnyAction } from '@reduxjs/toolkit';
 
@@ -35,6 +35,8 @@ type SongContainerType = {
 };
 
 export function songDetailContainer({ ituneData, singleItune, dispatchGetSingleItune }: SongContainerType) {
+  console.log('i m here inside 1');
+
   const { trackId }: any = useParams();
   const songs = get(ituneData, 'results', null);
   let data = songs?.find((item: { trackId: number }) => item.trackId === Number(trackId));
