@@ -21,6 +21,7 @@ const songContainerSlice = createSlice({
     successGetItuneSongs: (state: Draft<typeof initialState>, action: PayloadAction<any>) => {
       state.loading = false;
       state.ituneData = action.payload;
+      console.log(action);
     },
     clearItuneSongs: (state: Draft<typeof initialState>) => {
       state.loading = false;
@@ -32,4 +33,4 @@ const songContainerSlice = createSlice({
 
 export const { requestGetItuneSongs, successGetItuneSongs, clearItuneSongs } = songContainerSlice.actions;
 
-export const songContainerReducer = songContainerSlice.reducer;
+export default songContainerSlice.reducer;

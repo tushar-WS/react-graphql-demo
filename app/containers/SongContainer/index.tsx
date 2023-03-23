@@ -43,7 +43,11 @@ type SongContainerType = {
   dispatchItuneSongs: (payload: any) => AnyAction;
   dispatchClearSongs: () => AnyAction;
 };
-export function SongContainer({ ituneData, dispatchItuneSongs, dispatchClearSongs }: SongContainerType) {
+export function SongContainer({ ituneData, dispatchItuneSongs, dispatchClearSongs, artistName }: SongContainerType) {
+  console.log({ ituneData });
+  console.log('in song');
+  console.log(artistName);
+
   const changeHandler = (evt: { target: { value: any } }) => {
     const searchTerm = evt.target.value;
 
@@ -56,13 +60,18 @@ export function SongContainer({ ituneData, dispatchItuneSongs, dispatchClearSong
 
   const renderSongList = () => {
     const songs = get(ituneData, 'results', null);
+    console.log('in render song');
+
+    console.log(ituneData);
+
+    console.log({ songs });
 
     return (
       <>
         <For
           of={songs}
           ParentComponent={CardWrapper}
-          renderItem={(item, index) => <ItuneCard key={index} {...item} />}
+          renderItem={(item: any, index) => <ItuneCard key={index} {...item} />}
         />
       </>
     );

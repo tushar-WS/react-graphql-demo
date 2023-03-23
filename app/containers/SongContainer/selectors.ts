@@ -5,7 +5,10 @@ import get from 'lodash/get';
 export const selectSongContainerDomain = (state: any) => state.songContainer || initialState;
 
 export const selectItuneData = () =>
-  createSelector(selectSongContainerDomain, (substate) => get(substate, 'ituneData'));
+  createSelector(selectSongContainerDomain, (substate) => {
+    console.log({ substate });
+    return get(substate, 'ituneData');
+  });
 
 export const selectArtistName = () =>
   createSelector(selectSongContainerDomain, (substate) => get(substate, 'artistName'));
