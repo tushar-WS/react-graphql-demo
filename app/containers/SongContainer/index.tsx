@@ -64,7 +64,7 @@ export function SongContainer({ ituneData, dispatchItuneSongs, dispatchClearSong
           of={songs}
           ParentComponent={CardWrapper}
           renderItem={(item: any) => (
-            <Link key={item.trackId} to={`track/${item.trackId}`}>
+            <Link key={item.trackId} to={`song/${item.trackId}`}>
               <ItuneCard {...item} />
             </Link>
           )}

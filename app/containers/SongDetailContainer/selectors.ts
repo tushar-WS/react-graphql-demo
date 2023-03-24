@@ -6,7 +6,7 @@ import get from 'lodash/get';
  * Direct selector to the songDetailContainer state domain
  */
 
-export const selectSongDetailContainerDomain = (state) => state.songDetailContainer || initialState;
+export const selectSongDetailContainerDomain = (state: any) => state.songDetailContainer || initialState;
 
 export const selectSingleItune = () =>
   createSelector(selectSongDetailContainerDomain, (substate) => get(substate, 'singleItune'));

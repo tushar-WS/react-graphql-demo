@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -26,6 +26,47 @@ const DetailsCard = styled.div`
 
   display: flex;
   gap: 1rem;
+  align-items: center;
+  justify-content: center;
+`;
+
+const SongImage = styled.img`
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  object-fit: cover;
+`;
+
+const SongDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const PlayButton = styled.button`
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #f94144;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #ee2e31;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(249, 65, 68, 0.4);
+  }
+`;
+
+const Audio = styled.audio`
+  width: 100%;
+  margin-top: 1rem;
 `;
 
 type SongContainerType = {
@@ -35,32 +76,33 @@ type SongContainerType = {
 };
 
 export function songDetailContainer({ ituneData, singleItune, dispatchGetSingleItune }: SongContainerType) {
-  console.log('i m here inside 1');
-
   const { trackId }: any = useParams();
   const songs = get(ituneData, 'results', null);
-  let data = songs?.find((item: { trackId: number }) => item.trackId === Number(trackId));
+  const data = songs?.find((item: { trackId: number }) => item.trackId === Number(trackId));
   const songDetails = data ?? (!isEmpty(singleItune) && singleItune.results[0]);
-  const { artistName, trackName, artworkUrl100: imgUrl } = songDetails;
+  const { artistName, trackName, artworkUrl100: imgUrl, previewUrl } = songDetails;
 
-  let dataIsPresent =
-    data ||
-    (!isEmpty(singleItune) &&
-      singleItune.results.find((item: { trackId: number }) => item.trackId === Number(trackId)));
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handlePlay = () => {
+    setIsPlaying(true);
+  };
 
   useEffect(() => {
-    if (!dataIsPresent) {
+    if (!data && isEmpty(singleItune)) {
       dispatchGetSingleItune(trackId);
     }
-  }, [ituneData]);
+  }, [data, singleItune]);
 
   return (
     <DetailsCard>
-      <img data-testid="song-image" src={imgUrl} />
-      <div>
-        <T data-testid="artist-name" id="artist_name" type="heading" values={{ artistName }} />
-        <T data-testid="track-name" id="track_name" type="heading" values={{ trackName }} />
-      </div>
+      <SongImage data-testid="song-image" src={imgUrl} />
+      <SongDetails>
+        <T data-testid="artist-name" type="heading" text={artistName} />
+        <T data-testid="track-name" type="heading" text={trackName} />
+        <PlayButton onClick={handlePlay}>Play</PlayButton>
+        {isPlaying && <Audio src={previewUrl} autoPlay />}
+      </SongDetails>
     </DetailsCard>
   );
 }
@@ -90,6 +132,8 @@ export function mapDispatchToProps(dispatch: any) {
 }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+// export default compose(withConnect, injectSaga({ key: 'SongDetailContainer', saga }))(SongDetail
 
 export default compose(withConnect, injectSaga({ key: 'songDetailContainer', saga }))(songDetailContainer);
 
