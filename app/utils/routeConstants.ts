@@ -10,6 +10,17 @@ const routeConstants: Record<string, RouteConstant> = {
     route: '/',
     exact: true
   },
+  login: {
+    route: '/login',
+    exact: true
+  },
+  songs: {
+    route: '/song',
+    exact: true
+  },
+  song: {
+    route: '/song/:trackId'
+  },
   launch: {
     route: '/launch/:launchId',
     exact: true
